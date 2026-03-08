@@ -1,0 +1,78 @@
+{
+  "topic": "onboarding",
+  "stream": "my-product",
+  "created": "2026-03-07T14:30:00Z",
+  "based_on_extraction": "my-product-onboarding.json",
+  "pain_points": [
+    {
+      "issue": "Users can't find where to start after first login",
+      "frequency": 4,
+      "meetings": ["Acme Corp Call Mar 7", "User Research Mar 3", "Customer Feedback Review Feb 28", "Sprint Retro Feb 25"],
+      "quotes": [
+        "I spent 20 minutes just trying to find where to start",
+        "The dashboard is empty and there's no guidance",
+        "I expected a wizard or checklist"
+      ],
+      "severity": "high"
+    },
+    {
+      "issue": "Setup steps are not sequential — users skip critical config",
+      "frequency": 3,
+      "meetings": ["User Research Mar 3", "Design Review Mar 1", "Acme Corp Call Mar 7"],
+      "quotes": [
+        "I didn't realize I needed to do that first",
+        "Why didn't it tell me about this earlier?"
+      ],
+      "severity": "high"
+    },
+    {
+      "issue": "Error messages during setup don't explain how to fix the issue",
+      "frequency": 2,
+      "meetings": ["Customer Feedback Review Feb 28", "Acme Corp Call Mar 7"],
+      "quotes": [
+        "It just says 'invalid' but not why"
+      ],
+      "severity": "medium"
+    }
+  ],
+  "decisions": [
+    {
+      "decision": "Build an onboarding wizard with step-by-step guidance",
+      "date": "2026-03-07",
+      "meeting": "Sprint Planning",
+      "rationale": "4 customers reported onboarding confusion in 2 weeks",
+      "status": "confirmed"
+    },
+    {
+      "decision": "Use progressive disclosure — show only relevant steps",
+      "date": "2026-03-01",
+      "meeting": "Design Review",
+      "rationale": "Reduces cognitive load, addresses 'too many options' feedback",
+      "status": "proposed"
+    }
+  ],
+  "open_questions": [
+    "Should the wizard be dismissible or required for first-time users?",
+    "How do we handle users who partially complete setup and return later?",
+    "Should we show a progress indicator across sessions?"
+  ],
+  "feature_proposals": [
+    {
+      "proposal": "Onboarding checklist in sidebar",
+      "status": "discussed",
+      "source": "Competitive analysis (Alex)"
+    },
+    {
+      "proposal": "Video walkthrough embedded in empty state",
+      "status": "deferred",
+      "source": "Design Review Mar 1"
+    }
+  ],
+  "cross_meeting_themes": [
+    "First-time experience is the #1 friction point",
+    "Sequential guidance preferred over open-ended exploration",
+    "Error handling is a sub-theme of onboarding"
+  ],
+  "recommended_artifact": "Interactive Prototype",
+  "artifact_reasoning": "High-frequency pain point with confirmed decision to build. Prototype will validate progressive disclosure approach before engineering investment."
+}

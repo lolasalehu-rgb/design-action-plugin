@@ -1,0 +1,57 @@
+{
+  "date": "2026-03-07",
+  "items_scored": 3,
+  "items_added_to_backlog": 2,
+  "new_items": [
+    {
+      "item": "Onboarding wizard — first-time user guidance",
+      "stream": "my-product",
+      "task_key": "PROJ-489",
+      "scores": {
+        "User Impact": 5,
+        "Business Value": 4,
+        "Effort": 3,
+        "Strategic Alignment": 4
+      },
+      "priority": 6.8,
+      "type": "BUILD",
+      "rationale": "4 customers reported onboarding confusion in 2 weeks. Confirmed in sprint planning. Prototype needed before engineering."
+    },
+    {
+      "item": "Error message clarity improvements",
+      "stream": "my-product",
+      "task_key": "PROJ-456",
+      "scores": {
+        "User Impact": 4,
+        "Business Value": 3,
+        "Effort": 2,
+        "Strategic Alignment": 3
+      },
+      "priority": 5.5,
+      "type": "BUILD",
+      "rationale": "Recurring theme across customer calls. Low effort, high user impact. Already in sprint."
+    }
+  ],
+  "skipped": [
+    {
+      "item": "Dashboard color scheme discussion",
+      "reason": "Cosmetic preference, not a design problem. No user evidence."
+    }
+  ],
+  "ready_for_parallel": [
+    {
+      "item": "Onboarding wizard prototype",
+      "stream": "my-product",
+      "type": "BUILD",
+      "priority": 6.8,
+      "independent": true
+    },
+    {
+      "item": "Error message audit + redesign",
+      "stream": "my-product",
+      "type": "BUILD",
+      "priority": 5.5,
+      "independent": true
+    }
+  ]
+}
