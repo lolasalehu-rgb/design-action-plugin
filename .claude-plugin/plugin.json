@@ -2,30 +2,10 @@
   "name": "design-action",
   "version": "1.0.0",
   "description": "Turn scattered design evidence — from meetings, videos, task trackers, chat, and docs — into grounded design artifacts. Provider-agnostic: works with Granola/Otter/Fireflies, Jira/Linear/GitHub, Slack/Discord, Figma/Penpot, or plain markdown.",
-  "author": "Lola Salehu (https://www.linkedin.com/in/lola-salehu/)",
+  "author": {
+    "name": "Lola Salehu",
+    "url": "https://www.linkedin.com/in/lola-salehu/"
+  },
   "license": "SEE LICENSE FILE",
-  "skills": [
-    {
-      "name": "design-action",
-      "description": "Transform scattered design evidence into grounded artifacts. Aggregates context from meetings, video recordings, task trackers, chat threads, and documents — then synthesizes into prototypes, journey maps, wireframes, research docs, or FigJam boards with full source citations. Use when the user mentions design synthesis, meeting notes, design tasks, cross-source analysis, evidence gathering, or wants to turn discussions and research into deliverables. Also use for proactive source scanning (--scan), weekly priority synthesis (--priorities), or working triaged items (--execute).",
-      "path": "skills/design-action/SKILL.md"
-    }
-  ],
-  "commands": [
-    {
-      "name": "setup",
-      "description": "Interactive setup wizard — auto-detects MCP servers and creates config",
-      "path": "commands/setup.md"
-    },
-    {
-      "name": "scan",
-      "description": "Proactive scan for new design-relevant items across all configured sources",
-      "path": "commands/scan.md"
-    },
-    {
-      "name": "briefing",
-      "description": "Generate a daily design briefing from meetings, tasks, and communications",
-      "path": "commands/briefing.md"
-    }
-  ]
+  "keywords": ["design", "synthesis", "meetings", "artifacts", "evidence", "automation"]
 }
