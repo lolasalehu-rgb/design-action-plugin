@@ -1,0 +1,21 @@
+[Unit]
+Description=Design Action task check
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash {{SCRIPT_PATH_TASK_CHECK}}
+WorkingDirectory={{PLUGIN_DIR}}
+Environment=PATH={{PATH}}
+Nice=10
+
+# Timeout after 10 minutes
+TimeoutStartSec=600
+
+# Logging
+StandardOutput=append:{{LOG_DIR}}/task-check-stdout.log
+StandardError=append:{{LOG_DIR}}/task-check-stderr.log
+
+[Install]
+WantedBy=default.target

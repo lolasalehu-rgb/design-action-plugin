@@ -1,0 +1,21 @@
+[Unit]
+Description=Design Action heartbeat — meeting watcher
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash {{SCRIPT_PATH_HEARTBEAT}}
+WorkingDirectory={{PLUGIN_DIR}}
+Environment=PATH={{PATH}}
+Nice=15
+
+# Timeout after 5 minutes
+TimeoutStartSec=300
+
+# Logging
+StandardOutput=append:{{LOG_DIR}}/heartbeat-stdout.log
+StandardError=append:{{LOG_DIR}}/heartbeat-stderr.log
+
+[Install]
+WantedBy=default.target

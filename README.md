@@ -137,4 +137,4 @@ design-action/
 
 ## Author
 
-Created by Lola Salehu.
+Created by [Lola Salehu](https://www.linkedin.com/in/lola-salehu/?originalSubdomain=uk).

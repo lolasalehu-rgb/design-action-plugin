@@ -1,0 +1,11 @@
+[Unit]
+Description=Design Action daily briefing timer
+
+[Timer]
+# Run at configured briefing time on weekdays (Mon-Fri)
+OnCalendar=Mon..Fri *-*-* {{BRIEFING_HOUR}}:{{BRIEFING_MINUTE}}:00
+Persistent=true
+AccuracySec=60
+
+[Install]
+WantedBy=timers.target

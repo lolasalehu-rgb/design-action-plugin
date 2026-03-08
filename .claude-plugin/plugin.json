@@ -2,7 +2,7 @@
   "name": "design-action",
   "version": "1.0.0",
   "description": "Turn scattered design evidence — from meetings, videos, task trackers, chat, and docs — into grounded design artifacts. Provider-agnostic: works with Granola/Otter/Fireflies, Jira/Linear/GitHub, Slack/Discord, Figma/Penpot, or plain markdown.",
-  "author": "Lola Salehu",
+  "author": "Lola Salehu (https://www.linkedin.com/in/lola-salehu/)",
   "license": "SEE LICENSE FILE",
   "skills": [
     {

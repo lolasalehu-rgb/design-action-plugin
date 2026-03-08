@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.design-action.daily-briefing</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>{{SCRIPT_PATH_BRIEFING}}</string>
+    </array>
+
+    <key>StartCalendarInterval</key>
+    <array>
+        <!-- Monday -->
+        <dict>
+            <key>Weekday</key>
+            <integer>1</integer>
+            <key>Hour</key>
+            <integer>{{BRIEFING_HOUR}}</integer>
+            <key>Minute</key>
+            <integer>{{BRIEFING_MINUTE}}</integer>
+        </dict>
+        <!-- Tuesday -->
+        <dict>
+            <key>Weekday</key>
+            <integer>2</integer>
+            <key>Hour</key>
+            <integer>{{BRIEFING_HOUR}}</integer>
+            <key>Minute</key>
+            <integer>{{BRIEFING_MINUTE}}</integer>
+        </dict>
+        <!-- Wednesday -->
+        <dict>
+            <key>Weekday</key>
+            <integer>3</integer>
+            <key>Hour</key>
+            <integer>{{BRIEFING_HOUR}}</integer>
+            <key>Minute</key>
+            <integer>{{BRIEFING_MINUTE}}</integer>
+        </dict>
+        <!-- Thursday -->
+        <dict>
+            <key>Weekday</key>
+            <integer>4</integer>
+            <key>Hour</key>
+            <integer>{{BRIEFING_HOUR}}</integer>
+            <key>Minute</key>
+            <integer>{{BRIEFING_MINUTE}}</integer>
+        </dict>
+        <!-- Friday -->
+        <dict>
+            <key>Weekday</key>
+            <integer>5</integer>
+            <key>Hour</key>
+            <integer>{{BRIEFING_HOUR}}</integer>
+            <key>Minute</key>
+            <integer>{{BRIEFING_MINUTE}}</integer>
+        </dict>
+    </array>
+
+    <key>StandardOutPath</key>
+    <string>{{LOG_DIR}}/briefing-stdout.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>{{LOG_DIR}}/briefing-stderr.log</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>{{PATH}}</string>
+        <key>HOME</key>
+        <string>{{DATA_DIR}}/..</string>
+    </dict>
+
+    <key>WorkingDirectory</key>
+    <string>{{PLUGIN_DIR}}</string>
+
+    <key>RunAtLoad</key>
+    <false/>
+
+    <key>Nice</key>
+    <integer>10</integer>
+</dict>
+</plist>

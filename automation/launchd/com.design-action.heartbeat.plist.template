@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.design-action.heartbeat</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>{{SCRIPT_PATH_HEARTBEAT}}</string>
+    </array>
+
+    <!--
+        WatchPaths: triggers when the watched file/directory is modified.
+        Used for providers with local cache files (granola, manual).
+        If WATCH_PATH is empty, StartInterval provides polling fallback.
+    -->
+    <key>WatchPaths</key>
+    <array>
+        <string>{{WATCH_PATH}}</string>
+    </array>
+
+    <!--
+        ThrottleInterval: minimum seconds between invocations.
+        Prevents rapid re-triggering when the watched file changes frequently.
+    -->
+    <key>ThrottleInterval</key>
+    <integer>{{THROTTLE_SECONDS}}</integer>
+
+    <!--
+        StartInterval: polling fallback for providers without local cache.
+        If WatchPaths is empty/invalid, this ensures periodic checks.
+    -->
+    <key>StartInterval</key>
+    <integer>{{POLLING_SECONDS}}</integer>
+
+    <key>StandardOutPath</key>
+    <string>{{LOG_DIR}}/heartbeat-stdout.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>{{LOG_DIR}}/heartbeat-stderr.log</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>{{PATH}}</string>
+    </dict>
+
+    <key>WorkingDirectory</key>
+    <string>{{PLUGIN_DIR}}</string>
+
+    <key>RunAtLoad</key>
+    <false/>
+
+    <key>Nice</key>
+    <integer>15</integer>
+</dict>
+</plist>

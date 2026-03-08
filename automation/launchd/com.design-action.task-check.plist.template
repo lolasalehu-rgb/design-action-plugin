@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.design-action.task-check</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>{{SCRIPT_PATH_TASK_CHECK}}</string>
+    </array>
+
+    <key>StartCalendarInterval</key>
+    <array>
+        <!-- Monday -->
+        <dict>
+            <key>Weekday</key>
+            <integer>1</integer>
+            <key>Hour</key>
+            <integer>{{TASK_CHECK_HOUR}}</integer>
+            <key>Minute</key>
+            <integer>{{TASK_CHECK_MINUTE}}</integer>
+        </dict>
+        <!-- Tuesday -->
+        <dict>
+            <key>Weekday</key>
+            <integer>2</integer>
+            <key>Hour</key>
+            <integer>{{TASK_CHECK_HOUR}}</integer>
+            <key>Minute</key>
+            <integer>{{TASK_CHECK_MINUTE}}</integer>
+        </dict>
+        <!-- Wednesday -->
+        <dict>
+            <key>Weekday</key>
+            <integer>3</integer>
+            <key>Hour</key>
+            <integer>{{TASK_CHECK_HOUR}}</integer>
+            <key>Minute</key>
+            <integer>{{TASK_CHECK_MINUTE}}</integer>
+        </dict>
+        <!-- Thursday -->
+        <dict>
+            <key>Weekday</key>
+            <integer>4</integer>
+            <key>Hour</key>
+            <integer>{{TASK_CHECK_HOUR}}</integer>
+            <key>Minute</key>
+            <integer>{{TASK_CHECK_MINUTE}}</integer>
+        </dict>
+        <!-- Friday -->
+        <dict>
+            <key>Weekday</key>
+            <integer>5</integer>
+            <key>Hour</key>
+            <integer>{{TASK_CHECK_HOUR}}</integer>
+            <key>Minute</key>
+            <integer>{{TASK_CHECK_MINUTE}}</integer>
+        </dict>
+    </array>
+
+    <key>StandardOutPath</key>
+    <string>{{LOG_DIR}}/task-check-stdout.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>{{LOG_DIR}}/task-check-stderr.log</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>{{PATH}}</string>
+    </dict>
+
+    <key>WorkingDirectory</key>
+    <string>{{PLUGIN_DIR}}</string>
+
+    <key>RunAtLoad</key>
+    <false/>
+
+    <key>Nice</key>
+    <integer>10</integer>
+</dict>
+</plist>

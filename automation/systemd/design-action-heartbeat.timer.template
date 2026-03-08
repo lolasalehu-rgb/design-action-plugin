@@ -1,0 +1,16 @@
+[Unit]
+Description=Design Action heartbeat polling timer
+
+[Timer]
+# Poll at configured interval (for providers without local file watching)
+# The heartbeat script itself enforces throttle and work-hour gates
+OnUnitActiveSec={{POLLING_SECONDS}}s
+OnBootSec=120
+
+# Also run periodically as a safety net
+OnCalendar=Mon..Fri *-*-* 07..18:00/15:00
+Persistent=false
+AccuracySec=30
+
+[Install]
+WantedBy=timers.target

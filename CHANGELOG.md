@@ -22,3 +22,8 @@
 - Agent Team dispatch for parallel execution
 - Config validation script
 - Comprehensive provider setup documentation
+- Automation scripts: daily-briefing.sh, heartbeat.sh, task-check.sh (all config-driven)
+- Cross-platform installer: install-automation.sh (macOS launchd, Linux systemd, cron fallback)
+- Scheduler templates: 3 launchd plists, 6 systemd units, 1 crontab template
+- Heartbeat with 3-gate system (time, count, timestamp) before invoking Claude
+- Decision-log auto-generation from DDR files via embedded Python

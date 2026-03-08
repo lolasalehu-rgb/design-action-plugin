@@ -1,0 +1,11 @@
+[Unit]
+Description=Design Action task check timer
+
+[Timer]
+# Run at configured task check time on weekdays (Mon-Fri)
+OnCalendar=Mon..Fri *-*-* {{TASK_CHECK_HOUR}}:{{TASK_CHECK_MINUTE}}:00
+Persistent=true
+AccuracySec=60
+
+[Install]
+WantedBy=timers.target
