@@ -4,20 +4,34 @@ Turn scattered design evidence into grounded artifacts with full source citation
 
 ## Install
 
-**Works with Claude Code, Cursor, Copilot, Cline, and more:**
+### Core skill (any AI agent)
+
+Works with Claude Code, Cursor, Copilot, Cline, and more. Gives you the core `/design-action` skill with evidence synthesis and artifact creation.
 
 ```bash
 npx skills add lolasalehu-rgb/design-action-plugin
 ```
 
-Then run `/setup` to connect your tools. The setup wizard validates your installation, auto-detects your MCP servers, and walks you through configuration in 5 questions.
+Then run `/setup` to connect your tools.
 
-**Alternative — Claude Code plugin (full experience with commands and automation):**
+### Full experience (Claude Code)
+
+Includes everything above plus: `/scan`, `/briefing` commands, automated daily briefings, heartbeat scanning, launchd/systemd/cron scheduling, and config validation scripts.
 
 ```bash
 git clone https://github.com/lolasalehu-rgb/design-action-plugin.git
 claude --plugin-dir ./design-action-plugin
 ```
+
+| | `npx skills add` | `git clone` + `--plugin-dir` |
+|---|---|---|
+| Core `/design-action` skill | Yes | Yes |
+| `/setup` wizard | Yes | Yes |
+| `/scan`, `/briefing` commands | No | Yes |
+| Automated daily briefings | No | Yes |
+| Heartbeat + task-check scripts | No | Yes |
+| launchd/systemd/cron templates | No | Yes |
+| Full docs + examples | No | Yes |
 
 ## What It Does
 
