@@ -7,6 +7,39 @@ description: Transform scattered design evidence into grounded artifacts. Aggreg
 
 Transform scattered design evidence — from meetings, videos, tasks, chat, and docs — into grounded design artifacts through cross-source synthesis and interactive creation.
 
+## Installation Validation (run on first invocation)
+
+**Before doing anything else**, verify the installation is complete. This takes 5 seconds and prevents broken runs.
+
+**Step 1: Check required files exist.** Run `ls` on the skill directory to verify these files are present:
+
+| Required File | Purpose |
+|---------------|---------|
+| `reference/config-template.yaml` | Config template for `/setup` |
+| `reference/ddr-template.md` | Design Decision Record template |
+| `reference/tiered-loading.md` | Phase 1 loading procedures |
+| `reference/synthesis-patterns.md` | Phase 2 extraction patterns |
+| `reference/artifact-templates.md` | Phase 4 artifact templates |
+| `reference/evidence-grounding.md` | Phase 4 citation standards |
+| `reference/scan-workflow.md` | Scan mode procedures |
+| `reference/multi-source.md` | Multi-source procedures |
+| `reference/production-extraction.md` | Prototype codebase extraction |
+
+**Step 2: If ANY files are missing**, repair the installation:
+```bash
+# Find where this skill is installed
+SKILL_DIR=$(find ~/.claude/skills ~/.agents/skills -name "SKILL.md" -path "*/design-action/*" -exec dirname {} \; 2>/dev/null | head -1)
+
+# Download missing files from GitHub
+curl -sL "https://raw.githubusercontent.com/lolasalehu-rgb/design-action-plugin/main/skills/design-action/reference/{FILENAME}" -o "$SKILL_DIR/reference/{FILENAME}"
+```
+
+Replace `{FILENAME}` with each missing file. Create the `reference/` directory first if it doesn't exist.
+
+**Step 3: Verify repair.** Re-check that all files now exist. If curl fails (no internet or repo moved), the skill can still function — see the inline config template below and the inline DDR template in Phase 5.
+
+---
+
 ## Configuration
 
 This skill reads `~/.design-action/config.yaml` for provider configuration. Run `/setup` if config doesn't exist.
@@ -18,6 +51,50 @@ This skill reads `~/.design-action/config.yaml` for provider configuration. Run 
 - `providers.design_tool.type` — which design tool for artifacts
 - `streams[]` — work streams with project keys and channels
 - `scoring.dimensions[]` — customizable priority scoring
+
+### Inline Minimal Config (use if reference/config-template.yaml is missing)
+
+If the config template file is unavailable, create `~/.design-action/config.yaml` with this minimal config:
+
+```yaml
+version: 1
+user:
+  name: "Your Name"
+  role: "Product Designer"
+streams:
+  - name: "my-product"
+    display_name: "My Product"
+    task_project_key: "PROJ"
+    channels: ["#design-team"]
+providers:
+  meetings:
+    type: "manual"           # granola | otter | fireflies | google-meet | notion | manual
+    config:
+      notes_dir: "~/meeting-notes"
+  tasks:
+    type: "none"             # jira | linear | github-issues | notion | none
+    config: {}
+  communication:
+    type: "none"             # slack-mcp | slack-browser | discord | teams | none
+    config:
+      channels: []
+  design_tool:
+    type: "none"             # figma | penpot | none
+    config: {}
+scoring:
+  dimensions:
+    - { name: "User Impact", weight: 0.4, description: "How much does this help users?" }
+    - { name: "Business Value", weight: 0.3, description: "Business outcome impact" }
+    - { name: "Effort", weight: 0.2, invert: true, description: "Implementation complexity" }
+    - { name: "Strategic Alignment", weight: 0.1, description: "Strategy fit" }
+paths:
+  data_dir: "~/.design-action"
+  extractions: "~/.design-action/extractions"
+  briefings: "~/.design-action/briefings"
+  decisions: "~/.design-action/decisions"
+  inbox: "~/.design-action/inbox.md"
+  backlog: "~/.design-action/backlog.md"
+```
 
 ## Core Principles
 
@@ -227,7 +304,33 @@ Build iteratively: announce approach, show progress, get feedback on sections, o
 If the workflow appears repeatable, suggest: manual only, hook/agent, or scheduled automation.
 
 **DDR Prompt**: After artifact creation, ask: "Did this session produce a design decision? If yes, I'll create a DDR."
-If confirmed: create DDR in `{paths.decisions}/pending/` using template (see `reference/ddr-template.md`), update backlog if needed.
+If confirmed: create DDR in `{paths.decisions}/pending/` using template (see `reference/ddr-template.md`). If the template file is missing, use this inline template:
+
+```markdown
+# DDR-{NUMBER}: {TITLE}
+
+**Status:** Proposed | **Date:** {DATE} | **Stream:** {STREAM} | **Author:** {AUTHOR}
+
+## Context
+{What prompted this decision? Reference meetings, user research, or task tickets.}
+
+## Decision
+{What was decided and why.}
+
+## Alternatives Considered
+1. **{Alt 1}**: {Why rejected}
+
+## Evidence
+- "{Verbatim quote}" — {Speaker}, {Meeting}, {Date}
+
+## Impact
+- **User**: {effect} | **Technical**: {considerations} | **Business**: {implications}
+
+## Next Steps
+- [ ] {Action item}
+```
+
+Update backlog if needed.
 
 **Backlog Update**: If new items were discovered or existing items changed status, update `{paths.backlog}`.
 

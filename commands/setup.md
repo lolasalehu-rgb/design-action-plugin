@@ -1,11 +1,62 @@
 ---
 name: setup
-description: Interactive setup wizard — auto-detects MCP servers and creates config
+description: Interactive setup wizard — validates installation, auto-detects MCP servers, creates config
 ---
 
 # Setup Wizard
 
-Configure design-action for your environment. This wizard auto-detects your installed MCP servers and creates `~/.design-action/config.yaml`.
+Configure design-action for your environment. This wizard validates your installation, auto-detects your MCP servers, and creates `~/.design-action/config.yaml`.
+
+## Step 0: Validate Installation
+
+**Run this FIRST before anything else.**
+
+Find the skill directory:
+```bash
+SKILL_DIR=$(find ~/.claude/skills ~/.agents/skills -name "SKILL.md" -path "*/design-action/*" -exec dirname {} \; 2>/dev/null | head -1)
+echo "Skill installed at: $SKILL_DIR"
+```
+
+Check that required reference files exist:
+```bash
+ls "$SKILL_DIR/reference/"
+```
+
+**Required files in `reference/`:**
+- `config-template.yaml`
+- `ddr-template.md`
+- `tiered-loading.md`
+- `synthesis-patterns.md`
+- `artifact-templates.md`
+- `evidence-grounding.md`
+- `scan-workflow.md`
+- `multi-source.md`
+- `production-extraction.md`
+
+**If ANY are missing**, download them from GitHub:
+```bash
+mkdir -p "$SKILL_DIR/reference"
+for file in config-template.yaml ddr-template.md scoring-framework.md tiered-loading.md synthesis-patterns.md artifact-templates.md evidence-grounding.md scan-workflow.md multi-source.md production-extraction.md; do
+  if [ ! -f "$SKILL_DIR/reference/$file" ]; then
+    echo "Downloading missing: $file"
+    curl -sL "https://raw.githubusercontent.com/lolasalehu-rgb/design-action-plugin/main/skills/design-action/reference/$file" -o "$SKILL_DIR/reference/$file"
+  fi
+done
+```
+
+Report result:
+```
+## Installation Check
+
+✓ Skill directory found at: [path]
+✓ All reference files present (or downloaded)
+
+Proceeding to configuration...
+```
+
+If curl fails (no internet), the skill can still work — SKILL.md contains inline fallbacks for the config template and DDR template. Tell the user and continue.
+
+---
 
 ## Step 1: Auto-Detect MCP Servers
 
@@ -73,10 +124,41 @@ Create directory structure:
 mkdir -p ~/.design-action/{extractions,briefings,decisions/pending,decisions/accepted}
 ```
 
-Write `~/.design-action/config.yaml` based on answers.
-Copy starter templates:
-- `templates/inbox.md` → `~/.design-action/inbox.md`
-- `templates/backlog.md` → `~/.design-action/backlog.md`
+Write `~/.design-action/config.yaml` based on answers. Use `reference/config-template.yaml` as the base if available, otherwise use the inline config template from SKILL.md.
+
+Create starter files (inline — do NOT depend on templates/ directory):
+
+**`~/.design-action/inbox.md`:**
+```markdown
+# Design Inbox
+
+Items discovered by scanning that need triage.
+
+| Date | Source | Item | Stream | Action |
+|------|--------|------|--------|--------|
+```
+
+**`~/.design-action/backlog.md`:**
+```markdown
+# Design Backlog
+
+Scored and prioritized design work items.
+
+## Active (In Progress)
+
+| Priority | Item | Stream | Score | Status | Phase |
+|----------|------|--------|-------|--------|-------|
+
+## Queued (Ready to Start)
+
+| Priority | Item | Stream | Score | Status | Phase |
+|----------|------|--------|-------|--------|-------|
+
+## Completed
+
+| Item | Stream | Completed |
+|------|--------|-----------|
+```
 
 ## Step 4: Validate
 
@@ -95,16 +177,15 @@ Report result:
 ```
 ## Setup Complete!
 
+✓ Installation validated — all reference files present
 ✓ Config written to ~/.design-action/config.yaml
 ✓ Directory structure created
 ✓ Meeting provider validated (found X meetings)
-✓ Templates installed
+✓ Starter files created (inbox, backlog)
 
 Next steps:
 1. Try: /design-action --topic "any topic from a recent meeting"
 2. Try: /design-action --scan (if task tracker configured)
-3. See docs/providers.md for additional MCP server setup
-4. See docs/customization.md for scoring and template customization
 ```
 
 ## Step 5: Guide for Missing Servers
@@ -115,7 +196,6 @@ If the user needs MCP servers they don't have:
 
 For the best experience, consider adding:
 - [Provider name]: [One-line description of what it enables]
-  See docs/providers.md for setup instructions.
 ```
 
 Do NOT attempt to install MCP servers automatically. Only guide the user.
