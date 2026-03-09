@@ -1,0 +1,146 @@
+# design-action configuration
+# Copy to ~/.design-action/config.yaml and customize
+# Run /setup for interactive configuration
+
+version: 1
+
+# ─── Your Identity ───────────────────────────────────────────────
+user:
+  name: "Your Name"
+  role: "Product Designer"  # Used in briefings and artifact attribution
+
+# ─── Work Streams ────────────────────────────────────────────────
+# Define one or more design work streams you track.
+# Each stream maps to a task project and communication channels.
+streams:
+  - name: "my-product"              # Internal reference (no spaces)
+    display_name: "My Product"       # Human-readable name
+    task_project_key: "PROJ"         # Jira/Linear/GH project key
+    channels:                        # Communication channels to monitor
+      - "#design-team"
+      - "#product-feedback"
+
+  # Example: multiple streams
+  # - name: "mobile-app"
+  #   display_name: "Mobile App"
+  #   task_project_key: "MOB"
+  #   channels: ["#mobile-team"]
+
+# ─── Provider Configuration ──────────────────────────────────────
+# Each provider type has multiple backends. Set type to match your tool.
+# The skill reads these values and dispatches to the right MCP server.
+
+providers:
+
+  # Meeting notes / transcripts
+  # Supported: granola | otter | fireflies | google-meet | notion | manual
+  meetings:
+    type: "manual"
+    config:
+      # For "manual": directory containing meeting notes as markdown files
+      notes_dir: "~/meeting-notes"
+
+      # For "granola": no config needed (uses Granola MCP)
+      # For "otter": no config needed (uses Otter MCP)
+      # For "fireflies": no config needed (uses Fireflies MCP)
+      # For "google-meet": no config needed (uses Google Calendar + Drive)
+      # For "notion": database ID containing meeting notes
+      # notion_meeting_db: "abc123..."
+
+  # Task tracking
+  # Supported: jira | linear | github-issues | notion | none
+  tasks:
+    type: "none"
+    config:
+      # For "jira":
+      # projects: ["PROJ"]
+      # labels:
+      #   design_work: "design-work"    # Label for design-relevant tickets
+      #   phase_prefix: "design-"       # Prefix for phase labels (design-research, design-build, etc.)
+      #   stream_prefix: "design-stream-"  # Prefix for stream labels
+
+      # For "linear":
+      # team_ids: ["team-abc"]
+      # label_group: "Design"
+
+      # For "github-issues":
+      # repos: ["org/repo"]
+      # labels: ["design"]
+
+      # For "notion":
+      # task_db: "abc123..."
+
+  # Team communication (for --scan and --multi-source)
+  # Supported: slack-mcp | slack-browser | discord | teams | none
+  communication:
+    type: "none"
+    config:
+      channels: []
+      # For "slack-mcp": no extra config (uses Slack MCP)
+      # For "slack-browser": scans Slack via Chrome DevTools MCP
+      #   Requires Chrome open with Slack tab
+      # For "discord": no extra config (uses Discord MCP)
+      # For "teams": no extra config (uses Teams MCP)
+
+  # Design tool (for artifact creation)
+  # Supported: figma | penpot | none
+  design_tool:
+    type: "none"
+    config: {}
+    # For "figma": no config needed (uses Figma MCP)
+    # For "penpot": no config needed (uses Penpot MCP)
+
+  # Desktop notifications
+  # Supported: macos | notify-send | none
+  notifications:
+    type: "none"
+    # macos: uses osascript (macOS only)
+    # notify-send: uses notify-send (Linux only)
+
+# ─── Scoring Framework ──────────────────────────────────────────
+# Customize how design items are prioritized.
+# Weights must sum to 1.0. Set invert: true for dimensions where
+# higher = lower priority (like effort).
+
+scoring:
+  dimensions:
+    - name: "User Impact"
+      weight: 0.4
+      description: "How much does this help users accomplish their goals?"
+    - name: "Business Value"
+      weight: 0.3
+      description: "How much does this drive business outcomes?"
+    - name: "Effort"
+      weight: 0.2
+      invert: true  # Higher effort = lower priority
+      description: "Engineering and design complexity"
+    - name: "Strategic Alignment"
+      weight: 0.1
+      description: "How well does this align with current strategy?"
+
+# ─── Automation (Tier 3) ────────────────────────────────────────
+# Configure automated scanning and briefings.
+# Requires running install-automation.sh after configuration.
+
+automation:
+  enabled: false                    # Set to true after running install script
+  work_hours:
+    start: 7                        # Don't run automation before this hour
+    end: 19                         # Don't run automation after this hour
+    weekdays_only: true             # Skip weekends
+  briefing_time: "08:00"            # Daily briefing time (HH:MM)
+  task_check_time: "12:00"          # Mid-day task check time (HH:MM)
+  heartbeat:
+    enabled: false                  # Event-driven on meeting tool changes
+    throttle_minutes: 5             # Minimum interval between heartbeat runs
+
+# ─── Paths ───────────────────────────────────────────────────────
+# Where design-action stores its data. All paths support ~ expansion.
+
+paths:
+  data_dir: "~/.design-action"              # Root data directory
+  extractions: "~/.design-action/extractions"  # Cache files
+  briefings: "~/.design-action/briefings"      # Daily briefings
+  decisions: "~/.design-action/decisions"      # Design Decision Records
+  inbox: "~/.design-action/inbox.md"           # Incoming items
+  backlog: "~/.design-action/backlog.md"       # Scored backlog

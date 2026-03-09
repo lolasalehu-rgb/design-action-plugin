@@ -11,7 +11,7 @@ Transform scattered design evidence — from meetings, videos, tasks, chat, and 
 
 This skill reads `~/.design-action/config.yaml` for provider configuration. Run `/setup` if config doesn't exist.
 
-**Config structure** (see `templates/config.example.yaml` for full schema):
+**Config structure** (see `reference/config-template.yaml` for full schema):
 - `providers.meetings.type` — which meeting tool to query
 - `providers.tasks.type` — which task tracker to sync
 - `providers.communication.type` — which chat tool to scan
@@ -227,7 +227,7 @@ Build iteratively: announce approach, show progress, get feedback on sections, o
 If the workflow appears repeatable, suggest: manual only, hook/agent, or scheduled automation.
 
 **DDR Prompt**: After artifact creation, ask: "Did this session produce a design decision? If yes, I'll create a DDR."
-If confirmed: create DDR in `{paths.decisions}/pending/` using template (see `templates/ddr-template.md`), update backlog if needed.
+If confirmed: create DDR in `{paths.decisions}/pending/` using template (see `reference/ddr-template.md`), update backlog if needed.
 
 **Backlog Update**: If new items were discovered or existing items changed status, update `{paths.backlog}`.
 
