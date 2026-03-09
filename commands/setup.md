@@ -188,14 +188,22 @@ Next steps:
 2. Try: /design-action --scan (if task tracker configured)
 ```
 
-## Step 5: Guide for Missing Servers
+## Step 5: Help Install Missing Servers
 
-If the user needs MCP servers they don't have:
-```
-## Optional: Install Additional MCP Servers
+If the user wants capabilities that need MCP servers they don't have, offer to help set them up. Read their `.mcp.json` to understand the existing format, then:
 
-For the best experience, consider adding:
-- [Provider name]: [One-line description of what it enables]
-```
+1. **Explain what the server enables** and what credentials/access are needed
+2. **Offer to add the server config** to `.mcp.json` if the user provides the required tokens/keys
+3. **For servers with no auth required** (like Chrome DevTools), offer to install them directly
 
-Do NOT attempt to install MCP servers automatically. Only guide the user.
+Common MCP servers for design-action:
+
+| Server | Auth Needed | Install Help |
+|--------|-------------|-------------|
+| Granola | No (local app) | Add to `.mcp.json`, user needs Granola desktop app installed |
+| Atlassian/Jira | Yes (API token) | Guide user to create token, then add to `.mcp.json` |
+| Figma | Yes (access token) | Guide user to Figma settings → Personal Access Tokens |
+| Slack | Yes (app token) | Most complex — guide to Slack app creation or use `slack-browser` mode instead |
+| Chrome DevTools | No | Can install directly — just needs Chrome running with `--remote-debugging-port` |
+
+Be helpful and proactive, but always confirm with the user before modifying their `.mcp.json`.
