@@ -147,6 +147,6 @@ curl -sL "https://raw.githubusercontent.com/akeneo/design-action/main/skills/des
 
 ## Author
 
-Built by [Lola Salehu](https://www.linkedin.com/in/lola-salehu/?originalSubdomain=uk) — Product Designer, Activation & Digital Showroom.
+Built by [Lola Salehu](https://www.linkedin.com/in/lola-salehu/?originalSubdomain=uk) — Senior Product Designer, Expansion (Activation & Digital Showroom).
 
 **Landing page:** [design-action-site.vercel.app](https://design-action-site.vercel.app)
