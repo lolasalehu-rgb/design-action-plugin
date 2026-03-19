@@ -63,7 +63,7 @@ Here's what design-action has produced:
 | Topic | Stream | What It Created | Evidence Sources |
 |-------|--------|----------------|-----------------|
 | Error management | Activation | Interactive prototype — 6-category error taxonomy, KPI tiles, By Error/By Catalog tabs | 25+ meetings, AS8 Jira tickets, Slack threads |
-| Product model navigation | Digital Showroom | Variant display redesign prototype — inline variants, mobile-first wireframes | 12 meetings, ADS Jira, customer data (Allergosan) |
+| Product model navigation | Digital Showroom | Variant display redesign prototype — inline variants, mobile-first wireframes | 12 meetings, ADS Jira, customer feedback |
 | PIM navigation | Cross-stream | Interactive pitch prototype — 3-state toggle, Export Hub concept | Activation + DS meetings, nav analytics |
 | Search experience | Digital Showroom | 3-state search prototype — empty, partial, full results | Customer interviews, ADS tickets |
 | Onboarding walkthrough | Activation | 6-step Jimo tour deployed to prod | Sprint retros, user feedback, AS8 tickets |
