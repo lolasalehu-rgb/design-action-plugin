@@ -1,8 +1,8 @@
 # design-action
 
-Turn meeting discussions into design prototypes and artifacts — with full source citations.
+Turn scattered context into actionable design prototypes and artifacts — with grounded source citations.
 
-Pulls context from Google Meet recordings, Jira tickets, Slack threads, Figma designs, and Notion docs. Synthesizes the evidence, then creates grounded prototypes, journey maps, wireframes, or research docs where every element traces back to where it was discussed.
+Pulls context from everywhere you work -  Meeting discussions, Jira tickets, Slack threads, Figma designs, and Notion docs. Synthesizes the context, and turns that into grounded prototypes, journey maps, wireframes, or research docs that help you get work done.
 
 ## Get Started (2 minutes)
 
@@ -34,7 +34,7 @@ The full plugin adds `/scan`, `/briefing` commands, automated daily briefings, a
 
 ## What It Does
 
-1. **Gathers** evidence from Google Meet recordings, Jira (AS8 + ADS), Slack, Figma, Notion
+1. **Gathers** evidence from Meeting recordings, Jira (AS8 + ADS), Slack, Figma, Notion
 2. **Synthesizes** pain points by frequency, confirmed decisions, open questions, verbatim quotes
 3. **Suggests** the right artifact type based on what the evidence supports
 4. **Creates** the artifact with every element citing its source
@@ -99,7 +99,7 @@ Start simple, add capabilities over time.
 | **+ Tracking** | Backlog, DDRs, task sync, `/scan` | + Jira MCP (AS8/ADS projects) |
 | **Full Auto** | Daily briefings, heartbeat, auto-triage | + launchd schedule (macOS) |
 
-## Connected Tools at Akeneo
+## Connected Tools 
 
 | Category | What We Use | Status |
 |----------|------------|--------|
