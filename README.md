@@ -34,7 +34,7 @@ The full plugin adds `/scan`, `/briefing` commands, automated daily briefings, a
 
 ## What It Does
 
-1. **Gathers** evidence from Meeting recordings, Jira (AS8 + ADS), Slack, Figma, Notion
+1. **Gathers** context from Meeting recordings, Jira (AS8 + ADS), Slack, Figma, Notion
 2. **Synthesizes** pain points by frequency, confirmed decisions, open questions, verbatim quotes
 3. **Suggests** the right artifact type based on what the evidence supports
 4. **Creates** the artifact with every element citing its source
