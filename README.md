@@ -58,7 +58,7 @@ The full plugin adds `/scan`, `/briefing` commands, automated daily briefings, a
 
 ## Real Examples at Akeneo
 
-Here's what design-action has produced from real meeting evidence:
+Here's what design-action has produced:
 
 | Topic | Stream | What It Created | Evidence Sources |
 |-------|--------|----------------|-----------------|
