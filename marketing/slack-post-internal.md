@@ -14,15 +14,15 @@ it pulls context from Google Meet recordings + Jira tickets + Slack threads, syn
 0:25 — what it produces (Digital Showroom + Activation prototypes)
 0:49 — how to get started
 
-GitHub: github.com/akeneo/design-action
+GitHub: github.com/lolasalehu-rgb/design-action-plugin
 Landing page: design-action-site.vercel.app
 
 works with Google Meet recordings, Jira (AS8 + ADS), Slack, Figma, and Notion — the tools we already use.
 no infrastructure needed. clone, install, point it at your meetings.
 
 ```
-git clone git@github.com:akeneo/design-action.git
-claude --plugin-dir ./design-action
+git clone git@github.com:lolasalehu-rgb/design-action-plugin.git
+claude --plugin-dir ./design-action-plugin
 /setup
 ```
 
