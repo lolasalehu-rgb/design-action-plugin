@@ -7,17 +7,24 @@
 **Cause:** `~/.design-action/config.yaml` doesn't exist.
 **Fix:** Run `/setup` to create configuration interactively.
 
-### "No meetings found"
+### "No meetings found" / source looks dead
+
+**First, distinguish a *quiet window* from a *broken source* — data-first, not by assumption.**
+A run returning zero meetings is normal on a quiet day. Before concluding the source is broken (or that a subscription "expired"), check a freshness signal: when did the source last return data successfully? If that was recent (e.g. < 24h), zero new meetings just means nothing new — not a failure. Don't let one empty run cascade into a "source is down" narrative across later runs.
 
 **Possible causes:**
-1. Meeting provider not configured or MCP server not running
-2. Search query too specific — try broader terms
-3. For manual provider: notes_dir doesn't exist or has no .md files
+1. Genuinely quiet window — no new meetings in the lookback range (most common; not an error)
+2. Meeting provider not configured or MCP server not running
+3. Search query too specific — try broader terms
+4. For manual provider: `notes_dir` doesn't exist or has no `.md` files
+5. Provider auth expired (API key / OAuth) — re-authenticate the MCP server
+6. **Granola only:** since **v7.277 (May 2026)** Granola encrypts its local cache, so community MCPs that read `cache-v6.json` return nothing. Switch to the **official Granola Cloud MCP** (`granola-cloud`) — see `docs/providers.md`.
 
 **Debug:**
 - Check config: `cat ~/.design-action/config.yaml`
 - Validate config: `./scripts/validate-config.sh`
 - Try a very broad search: `/design-action --topic "meeting" --broad`
+- Verify the MCP responds at all (a direct tool call), so you can tell "empty result" apart from "server down"
 
 ### "Task tracker not responding"
 

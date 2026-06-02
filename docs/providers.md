@@ -8,24 +8,35 @@ design-action works with any combination of meeting, task, communication, and de
 
 **What it provides:** AI meeting notes with transcripts, summaries, participants, and Q&A history.
 
-**MCP Server:** [granola-mcp](https://github.com/granola-ai/granola-mcp) (community)
+> ⚠️ **Granola cache encryption (v7.277+, May 2026).** Granola now encrypts its local cache (`cache-v6.json.enc`); the plaintext `cache-v6.json` is left as an empty stub. **Community MCP servers and tools that read the local cache file therefore return no meetings on current Granola versions.** Use the **official Granola Cloud MCP** (below), which talks to Granola's API and is unaffected. The local-cache server is kept only as a legacy option for older Granola builds.
 
-**Setup:**
+**Recommended — Official Granola Cloud MCP** (server-side, unaffected by cache encryption; requires an active Granola subscription/trial):
 ```json
 // Add to ~/.claude/.mcp.json
 {
   "mcpServers": {
-    "granola": {
-      "command": "npx",
-      "args": ["-y", "granola-mcp"]
+    "granola-cloud": {
+      "type": "http",
+      "url": "https://mcp.granola.ai/mcp"
     }
   }
 }
 ```
+Authenticate once via OAuth when prompted. **Available tools:** `list_meetings`, `get_meetings`, `get_meeting_transcript`, `query_granola_meetings` (AI semantic search).
 
+**Legacy — community local-cache MCP** ([granola-mcp](https://github.com/granola-ai/granola-mcp)): only works on Granola builds **before** v7.277 (unencrypted cache).
+```json
+{
+  "mcpServers": {
+    "granola": { "command": "npx", "args": ["-y", "granola-mcp"] }
+  }
+}
+```
 **Available tools:** `search_meetings`, `get_meeting_details`, `get_meeting_transcript`
 
-**Best for:** Teams already using Granola for meeting notes. Provides the richest meeting data.
+**Subscription note:** Both servers need an active Granola subscription/trial. If it lapses, Granola stops producing new transcripts entirely — no provider can backfill new meetings, so export anything you need to keep while the subscription is active.
+
+**Best for:** Teams already using Granola for meeting notes. Provides the richest meeting data via the cloud MCP.
 
 ---
 
