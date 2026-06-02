@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.1.0] - 2026-06-02
+
+### Fixed
+- **Granola heartbeat never fired on current Granola versions.** The watch path was hardcoded to `cache-v4.json`; Granola has since moved to v6/v7 and, as of **v7.277 (May 2026), encrypts the cache** (`cache-v*.json.enc`, leaving the plaintext file an empty stub). The heartbeat now auto-detects the newest cache artifact (encrypted or not) in both `heartbeat.sh` and `install-automation.sh`.
+- **Heartbeat count-gate could skip forever on an unparseable watch source.** Added graceful degradation: when the watched file can't be counted (encrypted cache, or any unparseable format), the count gate is treated as *inconclusive* and falls through to the timestamp/throttle gate instead of silently exiting. Benefits any provider, not just Granola. The stored meeting count is no longer overwritten with a spurious `0`.
+
+### Added
+- **Official Granola Cloud MCP** (`granola-cloud`, `https://mcp.granola.ai/mcp`) documented in `docs/providers.md` as the recommended Granola server — it talks to Granola's API and is unaffected by local-cache encryption. The community local-cache MCP is retained as a legacy option for pre-v7.277 builds.
+- Troubleshooting guidance: distinguish a *quiet window* (zero new meetings is normal) from a *broken source* using a data-first freshness check, rather than assuming an expired subscription. Provider-general, with the Granola encryption change documented as one specific cause.
+
+### Notes
+- These changes are scoped to the **Granola** provider path and provider-general robustness; Otter, Fireflies, Google Meet, Notion, and manual providers are unaffected by the Granola cache change (they read cloud APIs or local files).
+
 ## [1.0.0] - 2026-03-08
 
 ### Added

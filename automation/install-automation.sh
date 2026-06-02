@@ -89,7 +89,11 @@ read_config() {
   # Determine watch path based on provider
   case "$MEETING_PROVIDER" in
     granola)
-      WATCH_PATH="$HOME/Library/Application Support/Granola/cache-v4.json"
+      # Auto-detect the newest Granola cache artifact. Granola bumps the version
+      # (v3→v4→v6→…) and, since v7.277 (May 2026), encrypts it as cache-v*.json.enc.
+      # Never hardcode a version/extension — watch whatever is newest.
+      WATCH_PATH="$(ls -t "$HOME/Library/Application Support/Granola/"cache-v*.json.enc \
+                          "$HOME/Library/Application Support/Granola/"cache-v*.json 2>/dev/null | head -1)"
       ;;
     manual)
       WATCH_PATH="$NOTES_DIR"

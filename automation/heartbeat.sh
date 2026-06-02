@@ -92,7 +92,12 @@ fi
 get_watch_path() {
   case "$MEETING_PROVIDER" in
     granola)
-      echo "$HOME/Library/Application Support/Granola/cache-v4.json"
+      # Granola auto-upgrades cache versions (v3 → v4 → v6 → …) and, as of
+      # v7.277 (May 2026), ENCRYPTS the cache as cache-v*.json.enc (the plaintext
+      # cache-v*.json is left as an empty stub). Never hardcode a version: pick
+      # the newest cache artifact — encrypted or not — as the change trigger.
+      ls -t "$HOME/Library/Application Support/Granola/"cache-v*.json.enc \
+            "$HOME/Library/Application Support/Granola/"cache-v*.json 2>/dev/null | head -1
       ;;
     manual)
       echo "$NOTES_DIR"
@@ -105,19 +110,32 @@ get_watch_path() {
 
 WATCH_PATH="$(get_watch_path)"
 
+CURRENT_COUNT=0
+# COUNT_RELIABLE guards against a silent permanent skip: when the watched file
+# can't be counted (e.g. an encrypted cache, or any unparseable format), the
+# count gate is INCONCLUSIVE — we must fall through to the timestamp gate (Gate 3)
+# rather than treat "0 items" as "nothing new". This keeps every provider robust
+# to a watch source we can't introspect, not just Granola.
+COUNT_RELIABLE=true
+
 if [[ "$FORCE" != "true" ]] && [[ -n "$WATCH_PATH" ]] && [[ -f "$WATCH_PATH" || -d "$WATCH_PATH" ]]; then
   # Count current items
-  CURRENT_COUNT=0
   case "$MEETING_PROVIDER" in
     granola)
-      if [[ -f "$WATCH_PATH" ]]; then
+      if [[ "$WATCH_PATH" == *.enc ]]; then
+        # Encrypted cache (Granola v7.277+): cannot be parsed for a doc count.
+        COUNT_RELIABLE=false
+        log "Count gate inconclusive: cache is encrypted ($(basename "$WATCH_PATH")) — deferring to timestamp gate"
+      elif [[ -f "$WATCH_PATH" ]]; then
         CURRENT_COUNT=$(python3 -c "
 import json, sys
 try:
     with open('$WATCH_PATH') as f:
         data = json.load(f)
     if isinstance(data, dict):
-        print(len(data.get('documents', data.get('meetings', []))))
+        # cache-v4/v6 nest documents under cache.state; handle both shapes
+        state = data.get('cache', {}).get('state', data) if isinstance(data.get('cache'), dict) else data
+        print(len(state.get('documents', state.get('meetings', []))))
     elif isinstance(data, list):
         print(len(data))
     else:
@@ -125,19 +143,25 @@ try:
 except Exception:
     print(0)
 " 2>/dev/null || echo "0")
+        # A non-empty file that parses to 0 items = unparseable/empty stub → inconclusive
+        if (( CURRENT_COUNT == 0 )) && [[ -s "$WATCH_PATH" ]]; then
+          COUNT_RELIABLE=false
+          log "Count gate inconclusive: cache present but yields 0 items (stub/unparseable) — deferring to timestamp gate"
+        fi
       fi
       ;;
     manual)
       if [[ -d "$WATCH_PATH" ]]; then
-        CURRENT_COUNT=$(find "$WATCH_PATH" -type f -name '*.md' -o -name '*.txt' | wc -l | tr -d ' ')
+        CURRENT_COUNT=$(find "$WATCH_PATH" -type f \( -name '*.md' -o -name '*.txt' \) | wc -l | tr -d ' ')
       fi
       ;;
   esac
 
-  # Compare with stored count
-  PREV_COUNT=0
-  if [[ -f "$STATE_FILE" ]]; then
-    PREV_COUNT=$(python3 -c "
+  if [[ "$COUNT_RELIABLE" == "true" ]]; then
+    # Compare with stored count
+    PREV_COUNT=0
+    if [[ -f "$STATE_FILE" ]]; then
+      PREV_COUNT=$(python3 -c "
 import json
 try:
     with open('$STATE_FILE') as f:
@@ -145,14 +169,15 @@ try:
 except Exception:
     print(0)
 " 2>/dev/null || echo "0")
-  fi
+    fi
 
-  if (( CURRENT_COUNT <= PREV_COUNT )); then
-    log "SKIP: No new items (current=$CURRENT_COUNT, previous=$PREV_COUNT)"
-    exit 0
-  fi
+    if (( CURRENT_COUNT <= PREV_COUNT )); then
+      log "SKIP: No new items (current=$CURRENT_COUNT, previous=$PREV_COUNT)"
+      exit 0
+    fi
 
-  log "New items detected: $PREV_COUNT → $CURRENT_COUNT"
+    log "New items detected: $PREV_COUNT → $CURRENT_COUNT"
+  fi
 fi
 
 # ---------------------------------------------------------------------------
@@ -282,9 +307,10 @@ with open(path, 'w') as f:
     json.dump(data, f, indent=2)
 "
 
-# Update state file with meeting count
-if [[ -n "${CURRENT_COUNT:-}" ]]; then
-  python3 -c "
+# Update state file. Always record last_run; only update meeting_count when the
+# count was RELIABLE — otherwise we'd overwrite a good baseline with a spurious 0
+# (e.g. from an encrypted cache) and mis-trigger the next run.
+python3 -c "
 import json, os
 path = '$STATE_FILE'
 data = {}
@@ -294,12 +320,12 @@ if os.path.exists(path):
             data = json.load(f)
     except Exception:
         pass
-data['meeting_count'] = $CURRENT_COUNT
+if '${COUNT_RELIABLE:-true}' == 'true':
+    data['meeting_count'] = ${CURRENT_COUNT:-0}
 data['last_run'] = '$NOW_ISO'
 with open(path, 'w') as f:
     json.dump(data, f, indent=2)
 "
-fi
 
 # ---------------------------------------------------------------------------
 # Notification
